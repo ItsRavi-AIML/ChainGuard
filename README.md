@@ -246,27 +246,6 @@ Goal: maximize early detection while minimizing operational friction.
 
 ---
 
-## 📁 Project Structure
-
-```
-chainguard/
-├── data/
-│   └── synthetic_invoices.csv       # Simulated SCF dataset
-├── engine/
-│   ├── fingerprint.py               # SHA-256 invoice hashing
-│   ├── feasibility.py               # Revenue vs invoice scorer
-│   ├── graph_analysis.py            # Circular trade detection
-│   ├── velocity.py                  # Sequencing anomaly detector
-│   └── risk_score.py                # Weighted signal aggregator
-├── api/
-│   └── main.py                      # FastAPI endpoints
-├── dashboard/
-│   └── app.py                       # Streamlit UI
-├── README.md
-└── requirements.txt
-```
-
----
 
 ## 🏆 What We Are Working Towards
 
