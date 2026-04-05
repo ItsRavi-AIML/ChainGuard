@@ -1,0 +1,359 @@
+/* ============================================================
+   CHAINGUARD — Design System Variables
+   Single source of truth for all visual tokens
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+:root {
+
+  /* ── Background Layers ───────────────────────────────────── */
+  --bg-base:        #04080F;   /* deepest background — body */
+  --bg-primary:     #070B14;   /* main page background */
+  --bg-surface:     #0A1020;   /* cards, panels */
+  --bg-elevated:    #0D1528;   /* modals, dropdowns, tooltips */
+  --bg-overlay:     #111E35;   /* hover states, selected rows */
+  --bg-input:       #0C1422;   /* form inputs */
+  --bg-glass:       rgba(13, 21, 40, 0.7); /* glassmorphism panels */
+
+  /* ── Border Colors ───────────────────────────────────────── */
+  --border-subtle:  #121E32;   /* very faint — card outlines */
+  --border-default: #1A2B45;   /* standard borders */
+  --border-strong:  #243D60;   /* emphasized borders */
+  --border-focus:   #3B82F6;   /* input focus ring */
+  --border-glow:    rgba(59, 130, 246, 0.4); /* glowing border */
+
+  /* ── Text Colors ─────────────────────────────────────────── */
+  --text-primary:   #E8F0FF;   /* main content */
+  --text-secondary: #8BA0C0;   /* labels, secondary info */
+  --text-muted:     #4A6080;   /* placeholders, disabled */
+  --text-dim:       #2E4060;   /* very subtle text */
+  --text-inverse:   #04080F;   /* text on light backgrounds */
+
+  /* ── Brand / Accent ──────────────────────────────────────── */
+  --brand-primary:  #0EA5E9;   /* ChainGuard blue — primary CTA */
+  --brand-dark:     #0875A8;   /* darker brand blue */
+  --brand-glow:     rgba(14, 165, 233, 0.25);
+
+  /* ── Risk Colors — the most used colors in the app ──────── */
+  --risk-high:      #FF3B5C;   /* HIGH risk — block */
+  --risk-high-bg:   rgba(255, 59, 92, 0.08);
+  --risk-high-border: rgba(255, 59, 92, 0.25);
+  --risk-high-glow: rgba(255, 59, 92, 0.35);
+
+  --risk-medium:    #FFB547;   /* MEDIUM risk — review */
+  --risk-medium-bg: rgba(255, 181, 71, 0.08);
+  --risk-medium-border: rgba(255, 181, 71, 0.25);
+  --risk-medium-glow: rgba(255, 181, 71, 0.35);
+
+  --risk-low:       #00D97E;   /* LOW risk — approve */
+  --risk-low-bg:    rgba(0, 217, 126, 0.08);
+  --risk-low-border: rgba(0, 217, 126, 0.25);
+  --risk-low-glow:  rgba(0, 217, 126, 0.35);
+
+  /* ── Semantic / UI Colors ────────────────────────────────── */
+  --accent-blue:    #3B82F6;   /* interactive, links */
+  --accent-cyan:    #06B6D4;   /* Tier 1 nodes, info */
+  --accent-violet:  #8B5CF6;   /* Tier 2 nodes, special */
+  --accent-orange:  #F97316;   /* Tier 3 nodes, warnings */
+  --accent-pink:    #EC4899;   /* carousel fraud highlight */
+  --accent-teal:    #14B8A6;   /* approved states */
+
+  /* ── Fraud Type Colors ───────────────────────────────────── */
+  --fraud-phantom:   #FF3B5C;  /* phantom invoices */
+  --fraud-carousel:  #EC4899;  /* carousel trades */
+  --fraud-double:    #FFB547;  /* double financing */
+  --fraud-over:      #F97316;  /* over-invoicing */
+  --fraud-dilution:  #8B5CF6;  /* dilution fraud */
+  --fraud-cascade:   #06B6D4;  /* cross-tier cascade */
+
+  /* ── Tier Colors ─────────────────────────────────────────── */
+  --tier-1:         #06B6D4;   /* Tier 1 — cyan */
+  --tier-2:         #8B5CF6;   /* Tier 2 — violet */
+  --tier-3:         #F97316;   /* Tier 3 — orange */
+
+  /* ── Typography ──────────────────────────────────────────── */
+  --font-display:   'Orbitron', sans-serif;      /* logo, headings, scores */
+  --font-body:      'DM Sans', sans-serif;        /* body, labels, UI */
+  --font-mono:      'JetBrains Mono', monospace;  /* IDs, amounts, code */
+
+  /* Font Sizes */
+  --text-xs:    0.625rem;   /*  10px */
+  --text-sm:    0.75rem;    /*  12px */
+  --text-base:  0.875rem;   /*  14px */
+  --text-md:    1rem;       /*  16px */
+  --text-lg:    1.125rem;   /*  18px */
+  --text-xl:    1.25rem;    /*  20px */
+  --text-2xl:   1.5rem;     /*  24px */
+  --text-3xl:   1.875rem;   /*  30px */
+  --text-4xl:   2.25rem;    /*  36px */
+  --text-5xl:   3rem;       /*  48px */
+  --text-6xl:   3.75rem;    /*  60px */
+  --text-7xl:   4.5rem;     /*  72px */
+
+  /* Font Weights */
+  --weight-light:   300;
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold:600;
+  --weight-bold:    700;
+  --weight-black:   900;
+
+  /* Line Heights */
+  --leading-tight:  1.2;
+  --leading-snug:   1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed:1.625;
+
+  /* Letter Spacing */
+  --tracking-tight:  -0.02em;
+  --tracking-normal:  0em;
+  --tracking-wide:    0.05em;
+  --tracking-wider:   0.1em;
+  --tracking-widest:  0.2em;
+
+  /* ── Spacing ─────────────────────────────────────────────── */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+  --space-32:  128px;
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  --radius-xs:  4px;
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+  --radius-2xl: 28px;
+  --radius-full:9999px;
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-xs:   0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-md:   0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg:   0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-xl:   0 16px 48px rgba(0, 0, 0, 0.7);
+  --shadow-2xl:  0 24px 64px rgba(0, 0, 0, 0.8);
+
+  /* Colored Glows */
+  --glow-blue:    0 0 24px rgba(59, 130, 246, 0.4),
+                  0 0 48px rgba(59, 130, 246, 0.15);
+  --glow-red:     0 0 24px rgba(255, 59, 92, 0.4),
+                  0 0 48px rgba(255, 59, 92, 0.15);
+  --glow-amber:   0 0 24px rgba(255, 181, 71, 0.4),
+                  0 0 48px rgba(255, 181, 71, 0.15);
+  --glow-green:   0 0 24px rgba(0, 217, 126, 0.4),
+                  0 0 48px rgba(0, 217, 126, 0.15);
+  --glow-cyan:    0 0 24px rgba(6, 182, 212, 0.4),
+                  0 0 48px rgba(6, 182, 212, 0.15);
+  --glow-brand:   0 0 32px rgba(14, 165, 233, 0.5),
+                  0 0 64px rgba(14, 165, 233, 0.2);
+
+  /* ── Layout ──────────────────────────────────────────────── */
+  --sidebar-width:       240px;
+  --sidebar-collapsed:   68px;
+  --navbar-height:       64px;
+  --content-max-width:   1440px;
+  --card-min-width:      280px;
+
+  /* ── Z-Index Stack ───────────────────────────────────────── */
+  --z-base:      0;
+  --z-raised:    10;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:     400;
+  --z-toast:     500;
+  --z-tooltip:   600;
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --ease-default:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:        cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:       cubic-bezier(0, 0, 0.2, 1);
+  --ease-bounce:    cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-elastic:   cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  --ease-smooth:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  --duration-instant: 80ms;
+  --duration-fast:    150ms;
+  --duration-normal:  250ms;
+  --duration-slow:    400ms;
+  --duration-slower:  600ms;
+  --duration-slowest: 900ms;
+
+  /* Shorthand transitions */
+  --transition-fast:   all var(--duration-fast) var(--ease-default);
+  --transition-normal: all var(--duration-normal) var(--ease-default);
+  --transition-slow:   all var(--duration-slow) var(--ease-default);
+  --transition-bounce: all var(--duration-slow) var(--ease-bounce);
+  --transition-color:  color var(--duration-fast) var(--ease-default),
+                       background-color var(--duration-fast) var(--ease-default),
+                       border-color var(--duration-fast) var(--ease-default);
+
+  /* ── Animation Durations (for keyframe animations) ──────── */
+  --anim-pulse:        2s;
+  --anim-spin:         1.2s;
+  --anim-float:        3s;
+  --anim-scan:         2.5s;
+  --anim-flicker:      4s;
+  --anim-network:      8s;
+  --anim-data-flow:    1.8s;
+  --anim-counter:      2s;
+  --anim-reveal:       0.6s;
+  --anim-slide-up:     0.5s;
+  --anim-fade-in:      0.4s;
+
+  /* ── Gradients ───────────────────────────────────────────── */
+  --gradient-brand:     linear-gradient(135deg, #0EA5E9 0%, #3B82F6 100%);
+  --gradient-danger:    linear-gradient(135deg, #FF3B5C 0%, #FF6B8A 100%);
+  --gradient-success:   linear-gradient(135deg, #00D97E 0%, #14B8A6 100%);
+  --gradient-warning:   linear-gradient(135deg, #FFB547 0%, #F97316 100%);
+  --gradient-surface:   linear-gradient(180deg, #0D1528 0%, #070B14 100%);
+  --gradient-hero:      linear-gradient(135deg, #04080F 0%, #070B14 40%, #0A1020 100%);
+  --gradient-card:      linear-gradient(145deg, #0D1528 0%, #0A1020 100%);
+  --gradient-mesh:      radial-gradient(ellipse at 20% 50%, rgba(14,165,233,0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.06) 0%, transparent 60%),
+                        radial-gradient(ellipse at 60% 80%, rgba(255,59,92,0.04) 0%, transparent 60%);
+  --gradient-text-brand: linear-gradient(135deg, #0EA5E9, #6366F1);
+  --gradient-text-danger:linear-gradient(135deg, #FF3B5C, #FFB547);
+
+  /* ── Glassmorphism ───────────────────────────────────────── */
+  --glass-bg:      rgba(13, 21, 40, 0.6);
+  --glass-border:  rgba(255, 255, 255, 0.06);
+  --glass-blur:    blur(20px);
+  --glass-blur-sm: blur(10px);
+  --glass-blur-lg: blur(40px);
+
+  /* ── Graph / Network Specific ────────────────────────────── */
+  --node-t1-color:       #06B6D4;
+  --node-t2-color:       #8B5CF6;
+  --node-t3-color:       #F97316;
+  --node-fraud-color:    #FF3B5C;
+  --node-safe-color:     #00D97E;
+  --edge-normal-color:   rgba(59, 130, 246, 0.4);
+  --edge-fraud-color:    rgba(255, 59, 92, 0.8);
+  --edge-missing-color:  rgba(255, 181, 71, 0.5);
+  --edge-cascade-color:  rgba(6, 182, 212, 0.7);
+
+  /* ── Scrollbar ───────────────────────────────────────────── */
+  --scrollbar-width:   6px;
+  --scrollbar-track:   #070B14;
+  --scrollbar-thumb:   #1A2B45;
+  --scrollbar-hover:   #243D60;
+}
+
+/* ── Global Resets & Base ────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  color: var(--text-primary);
+  background-color: var(--bg-base);
+  background-image: var(--gradient-mesh);
+  background-attachment: fixed;
+  line-height: var(--leading-normal);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Custom Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--radius-full);
+  transition: var(--transition-fast);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover);
+}
+
+/* ── Text Selection ──────────────────────────────────────────── */
+::selection {
+  background: rgba(14, 165, 233, 0.25);
+  color: var(--text-primary);
+}
+
+/* ── Focus Ring ──────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Utility: Gradient Text ──────────────────────────────────── */
+.text-gradient-brand {
+  background: var(--gradient-text-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.text-gradient-danger {
+  background: var(--gradient-text-danger);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Utility: Glass Panel ────────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+}
+
+/* ── Utility: Noise Texture Overlay ─────────────────────────── */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+/* ── Utility: Scanline Effect ────────────────────────────────── */
+.scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}

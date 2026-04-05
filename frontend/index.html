@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChainGuard — Pre-Disbursement Fraud Detection</title>
+  
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400;500;600&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  
+  <!-- ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- DESIGN SYSTEM -->
+  <link rel="stylesheet" href="assets/css/variables.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+  
+  <!-- INDEX-SPECIFIC STYLES -->
+  <style>
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-base);
+      color: var(--text-primary);
+      line-height: var(--leading-normal);
+      overflow-x: hidden;
+    }
+
+    /* Background Network Canvas */
+    #network-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      opacity: 0.3;
+    }
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Layout */
+    .container {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-lg) 0;
+      position: sticky;
+      top: 0;
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 100;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .logo span { color: var(--brand-primary); }
+    
+    .nav-cta {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      font-family: var(--font-body);
+      transition: var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: var(--brand-primary);
+      color: white;
+      box-shadow: var(--glow-brand);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 32px rgba(14, 165, 233, 0.7);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border-default);
+      color: var(--text-secondary);
+    }
+    .btn-outline:hover {
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: var(--space-xxl) 0;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-lg);
+      animation: fadeIn 0.6s ease-out;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: var(--space-md);
+      background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: slideUp 0.8s ease-out;
+    }
+    .hero p {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-secondary);
+      max-width: 680px;
+      margin-bottom: var(--space-lg);
+      animation: slideUp 0.8s ease-out 0.1s both;
+    }
+    .hero-cta {
+      display: flex;
+      gap: var(--space-md);
+      animation: slideUp 0.8s ease-out 0.2s both;
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+      padding: var(--space-lg);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      animation: fadeIn 1s ease-out 0.4s both;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--brand-primary);
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Problem Section */
+    .section {
+      padding: var(--space-xxl) 0;
+      margin-bottom: var(--space-xl);
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+    .section-header h2 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      margin-bottom: var(--space-sm);
+    }
+    .section-header p {
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Fraud Typologies Grid */
+    .fraud-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-lg);
+    }
+    .fraud-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      transition: var(--transition-fast);
+    }
+    .fraud-card:hover {
+      border-color: var(--brand-primary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .fraud-icon {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-sm);
+      color: var(--brand-primary);
+    }
+    .fraud-card h4 {
+      font-family: var(--font-display);
+      margin-bottom: var(--space-xs);
+    }
+    .fraud-card p {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    /* How It Works Pipeline */
+    .pipeline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .pipeline-step {
+      flex: 1;
+      min-width: 200px;
+      max-width: 220px;
+      text-align: center;
+      padding: var(--space-md);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      position: relative;
+    }
+    .pipeline-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 2px;
+      background: var(--border-default);
+      display: none;
+    }
+    @media (min-width: 900px) {
+      .pipeline-step:not(:last-child)::after {
+        display: block;
+      }
+    }
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: var(--brand-primary);
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+    }
+    .pipeline-step h4 {
+      font-family: var(--font-display);
+      font-size: var(--text-md);
+      margin-bottom: var(--space-xs);
+    }
+    .pipeline-step p {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-lg);
+    }
+    .feature-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      padding: var(--space-lg);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+    }
+    .feature-icon {
+      font-size: 1.75rem;
+      color: var(--accent-cyan);
+    }
+    .feature-card h4 {
+      font-family: var(--font-display);
+    }
+    .feature-card p {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    footer {
+      padding: var(--space-xl) 0;
+      border-top: 1px solid var(--border-default);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+    }
+    footer a {
+      color: var(--brand-primary);
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero-cta { flex-direction: column; align-items: center; }
+      .pipeline-step:not(:last-child)::after { display: none; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .nav-cta { flex-direction: column; gap: var(--space-xs); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Elements -->
+  <canvas id="network-bg"></canvas>
+  <div class="noise-overlay"></div>
+
+  <div class="container">
+    <!-- Navigation -->
+    <nav class="animate-fade-in">
+      <div class="logo">CHAIN<span>GUARD</span></div>
+      <div class="nav-cta">
+        <a href="pages/login.html" class="btn btn-outline">
+          <i class="fa-solid fa-user"></i> Login
+        </a>
+        <a href="pages/login.html" class="btn btn-primary">
+          <i class="fa-solid fa-rocket"></i> Launch Demo
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+        Pre-Disbursement Fraud Intelligence
+      </div>
+      <h1>Fraud hides in connections,<br>not documents.</h1>
+      <p>
+        ChainGuard detects multi-tier supply chain fraud before funds are released. 
+        Analyzing relationships, timing, and feasibility across your entire network.
+      </p>
+      <div class="hero-cta">
+        <a href="pages/login.html" class="btn btn-primary">
+          <i class="fa-solid fa-play"></i> Start Demo
+        </a>
+        <a href="#how-it-works" class="btn btn-outline">
+          <i class="fa-solid fa-arrow-down"></i> Learn More
+        </a>
+      </div>
+
+      <!-- Live Stats -->
+      <div class="stats-bar">
+        <div class="stat">
+          <div class="stat-value" data-count="47">0</div>
+          <div class="stat-label">Million ₹ Protected</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" data-count="340">0</div>
+          <div class="stat-label">Invoices Analyzed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" data-count="98">0</div>
+          <div class="stat-label">% Detection Rate</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" data-count="0.2">0</div>
+          <div class="stat-label">Sec Avg. Response</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="section" id="the-problem">
+      <div class="section-header">
+        <h2>The $47M Blind Spot</h2>
+        <p>Traditional systems validate documents. Fraud emerges from relationships.</p>
+      </div>
+      <div class="fraud-grid">
+        <div class="fraud-card animate-slide-up">
+          <div class="fraud-icon"><i class="fa-solid fa-file-invoice"></i></div>
+          <h4>Phantom Invoices</h4>
+          <p>Fabricated trade activity that passes isolated validation checks.</p>
+        </div>
+        <div class="fraud-card animate-slide-up delay-1">
+          <div class="fraud-icon"><i class="fa-solid fa-rotate"></i></div>
+          <h4>Carousel Trades</h4>
+          <p>Circular A→B→C→A transactions masking true exposure.</p>
+        </div>
+        <div class="fraud-card animate-slide-up delay-2">
+          <div class="fraud-icon"><i class="fa-solid fa-layer-group"></i></div>
+          <h4>Cross-Tier Cascades</h4>
+          <p>Same economic activity financed at multiple supply chain tiers.</p>
+        </div>
+        <div class="fraud-card animate-slide-up delay-3">
+          <div class="fraud-icon"><i class="fa-solid fa-money-bill-transfer"></i></div>
+          <h4>Double Financing</h4>
+          <p>Same invoice funded by multiple lenders due to data silos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section" id="how-it-works" style="background: var(--bg-surface); border-radius: var(--radius-xl); padding: var(--space-xl);">
+      <div class="section-header">
+        <h2>4-Layer Detection Engine</h2>
+        <p>Every invoice analyzed before disbursement.</p>
+      </div>
+      <div class="pipeline">
+        <div class="pipeline-step animate-slide-up">
+          <div class="step-num">1</div>
+          <h4>Fingerprint</h4>
+          <p>SHA-256 deduplication across lenders</p>
+        </div>
+        <div class="pipeline-step animate-slide-up delay-1">
+          <div class="step-num">2</div>
+          <h4>Feasibility</h4>
+          <p>Revenue vs. invoice volume realism check</p>
+        </div>
+        <div class="pipeline-step animate-slide-up delay-2">
+          <div class="step-num">3</div>
+          <h4>Velocity</h4>
+          <p>Burst patterns & timestamp anomaly detection</p>
+        </div>
+        <div class="pipeline-step animate-slide-up delay-3">
+          <div class="step-num">4</div>
+          <h4>Graph Analysis</h4>
+          <p>Cycle detection & cascade exposure mapping</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Built for Lenders</h2>
+        <p>Everything you need to make confident pre-disbursement decisions.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card animate-fade-in">
+          <div class="feature-icon"><i class="fa-solid fa-network-wired"></i></div>
+          <h4>Graph Intelligence</h4>
+          <p>Visualize supplier relationships and detect hidden fraud loops.</p>
+        </div>
+        <div class="feature-card animate-fade-in delay-1">
+          <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+          <h4>Real-Time Scoring</h4>
+          <p>0-100 risk score with plain-English explainability in <0.5s.</p>
+        </div>
+        <div class="feature-card animate-fade-in delay-2">
+          <div class="feature-icon"><i class="fa-solid fa-file-contract"></i></div>
+          <h4>PO/GRN Validation</h4>
+          <p>Automated matching against purchase orders and delivery confirmations.</p>
+        </div>
+        <div class="feature-card animate-fade-in delay-3">
+          <div class="feature-icon"><i class="fa-solid fa-shield-check"></i></div>
+          <h4>Audit Trail</h4>
+          <p>Every decision logged with reasoning for regulatory compliance.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>ChainGuard &copy; 2026 | Hackathon Prototype</p>
+      <p style="margin-top: var(--space-xs);">
+        Built for Supply Chain Finance Security • 
+        <a href="https://github.com/ItsRavi-AIML/ChainGuard" target="_blank">GitHub</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Lightweight Network Animation Script -->
+  <script>
+    // Simple particle network for background - performant, no dependencies
+    const canvas = document.getElementById('network-bg');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let width, height;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.size = Math.random() * 1.5 + 0.5;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+      draw() {
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.6)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      particles = [];
+      const count = Math.min(60, Math.floor((width * height) / 25000));
+      for (let i = 0; i < count; i++) particles.push(new Particle());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach((p, i) => {
+        p.update();
+        p.draw();
+        // Draw connections
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = p.x - particles[j].x;
+          const dy = p.y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.strokeStyle = `rgba(59, 130, 246, ${0.15 - dist/800})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      });
+      requestAnimationFrame(animate);
+    }
+
+    // Counter animation for stats
+    function animateCounters() {
+      document.querySelectorAll('.stat-value').forEach(el => {
+        const target = parseFloat(el.dataset.count);
+        const duration = 2000;
+        const start = performance.now();
+        const isDecimal = target % 1 !== 0;
+        
+        function update(currentTime) {
+          const progress = Math.min((currentTime - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          const current = target * ease;
+          el.textContent = isDecimal ? current.toFixed(1) : Math.floor(current);
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      });
+    }
+
+    window.addEventListener('resize', () => { resize(); init(); });
+    resize();
+    init();
+    animate();
+    
+    // Start counter animation when page is visible
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(animateCounters, 800);
+    });
+  </script>
+</body>
+</html>

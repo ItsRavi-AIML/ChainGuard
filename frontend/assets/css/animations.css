@@ -1,0 +1,596 @@
+/* ============================================================
+   CHAINGUARD — Animation System
+   All keyframes and animation utility classes
+   ============================================================ */
+
+/* ── PAGE LOAD ANIMATIONS ────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleInBounce {
+  0%   { opacity: 0; transform: scale(0.7); }
+  60%  { opacity: 1; transform: scale(1.05); }
+  80%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+/* ── CONTINUOUS / LOOPING ANIMATIONS ────────────────────────── */
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes pulseSlow {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.97); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 8px  rgba(14, 165, 233, 0.3),
+                0 0 16px rgba(14, 165, 233, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.6),
+                0 0 40px rgba(14, 165, 233, 0.25);
+  }
+}
+
+@keyframes pulseGlowRed {
+  0%, 100% {
+    box-shadow: 0 0 8px  rgba(255, 59, 92, 0.3),
+                0 0 16px rgba(255, 59, 92, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(255, 59, 92, 0.7),
+                0 0 48px rgba(255, 59, 92, 0.3);
+  }
+}
+
+@keyframes pulseGlowGreen {
+  0%, 100% {
+    box-shadow: 0 0 8px  rgba(0, 217, 126, 0.3),
+                0 0 16px rgba(0, 217, 126, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(0, 217, 126, 0.7),
+                0 0 48px rgba(0, 217, 126, 0.3);
+  }
+}
+
+@keyframes pulseGlowAmber {
+  0%, 100% {
+    box-shadow: 0 0 8px  rgba(255, 181, 71, 0.3),
+                0 0 16px rgba(255, 181, 71, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(255, 181, 71, 0.7),
+                0 0 48px rgba(255, 181, 71, 0.3);
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes spinReverse {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-8px) rotate(1deg); }
+  66%       { transform: translateY(-4px) rotate(-1deg); }
+}
+
+/* ── DATA / NETWORK ANIMATIONS ───────────────────────────────── */
+
+@keyframes dataFlow {
+  0%   { stroke-dashoffset: 1000; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { stroke-dashoffset: 0;    opacity: 0; }
+}
+
+@keyframes networkPulse {
+  0%, 100% {
+    r: 8;
+    opacity: 0.8;
+  }
+  50% {
+    r: 12;
+    opacity: 1;
+  }
+}
+
+@keyframes edgeDraw {
+  from { stroke-dashoffset: 500; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes nodeAppear {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes orbitDot {
+  from { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+}
+
+@keyframes ripple {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes rippleFraud {
+  0%   { transform: scale(1); opacity: 0.8; box-shadow: 0 0 0 0 rgba(255, 59, 92, 0.6); }
+  70%  { transform: scale(1); opacity: 0;   box-shadow: 0 0 0 20px rgba(255, 59, 92, 0); }
+  100% { transform: scale(1); opacity: 0;   box-shadow: 0 0 0 0 rgba(255, 59, 92, 0); }
+}
+
+/* ── RISK SCORE ANIMATIONS ───────────────────────────────────── */
+
+@keyframes gaugeReveal {
+  from { stroke-dashoffset: 314; }
+  to   { stroke-dashoffset: var(--gauge-offset, 0); }
+}
+
+@keyframes scoreCount {
+  from { opacity: 0; transform: scale(0.5) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes scoreShake {
+  0%, 100% { transform: translateX(0); }
+  10%       { transform: translateX(-8px); }
+  20%       { transform: translateX(8px); }
+  30%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  50%       { transform: translateX(-4px); }
+  60%       { transform: translateX(4px); }
+  70%       { transform: translateX(-2px); }
+  80%       { transform: translateX(2px); }
+}
+
+@keyframes riskFlash {
+  0%, 100% { background: transparent; }
+  50%       { background: rgba(255, 59, 92, 0.15); }
+}
+
+/* ── SCAN / DETECTION ANIMATIONS ─────────────────────────────── */
+
+@keyframes scanLine {
+  0%   { top: 0%;   opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes scanPing {
+  0%   { transform: scale(1);   opacity: 1; }
+  75%  { transform: scale(1.8); opacity: 0; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes radarSweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes detectFlash {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  20%  { opacity: 0; }
+  30%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── ALERT / NOTIFICATION ANIMATIONS ─────────────────────────── */
+
+@keyframes alertSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes alertSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    max-height: 100px;
+    margin-bottom: var(--space-3);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+    max-height: 0;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes alertBounce {
+  0%   { transform: translateX(100%); }
+  60%  { transform: translateX(-8px); }
+  80%  { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes warningPulse {
+  0%, 100% { border-color: rgba(255, 181, 71, 0.3); }
+  50%       { border-color: rgba(255, 181, 71, 0.9); }
+}
+
+@keyframes dangerBlink {
+  0%, 49% { border-color: rgba(255, 59, 92, 0.8); background: rgba(255, 59, 92, 0.05); }
+  50%, 100%{ border-color: rgba(255, 59, 92, 0.2); background: transparent; }
+}
+
+/* ── LOADING ANIMATIONS ──────────────────────────────────────── */
+
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position:  1000px 0; }
+}
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes progressBar {
+  from { width: 0%; }
+  to   { width: var(--progress-width, 100%); }
+}
+
+@keyframes progressIndeterminate {
+  0%   { left: -40%; width: 40%; }
+  60%  { left: 100%;  width: 100%; }
+  100% { left: 100%;  width: 40%; }
+}
+
+@keyframes dotLoader {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40%            { transform: scale(1.0); opacity: 1.0; }
+}
+
+@keyframes spinnerDash {
+  0%   { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+  50%  { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+  100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+}
+
+/* ── HERO / LANDING ANIMATIONS ───────────────────────────────── */
+
+@keyframes heroTextReveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px) skewY(2deg);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) skewY(0deg);
+    filter: blur(0);
+  }
+}
+
+@keyframes heroLineGrow {
+  from { width: 0; opacity: 0; }
+  to   { width: 80px; opacity: 1; }
+}
+
+@keyframes counterUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes networkBackground {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(-10px, 15px) scale(1.02); }
+  50%  { transform: translate(5px, -10px) scale(0.99); }
+  75%  { transform: translate(-5px, 5px) scale(1.01); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes particleFloat {
+  0%   { transform: translateY(0px) translateX(0px); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-120px) translateX(20px); opacity: 0; }
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── CHART ANIMATIONS ────────────────────────────────────────── */
+
+@keyframes barGrow {
+  from { transform: scaleY(0); transform-origin: bottom; }
+  to   { transform: scaleY(1); transform-origin: bottom; }
+}
+
+@keyframes donutReveal {
+  from { stroke-dashoffset: 440; }
+  to   { stroke-dashoffset: var(--donut-offset, 0); }
+}
+
+@keyframes lineDrawn {
+  from { stroke-dashoffset: 2000; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* ── MICRO INTERACTIONS ──────────────────────────────────────── */
+
+@keyframes buttonPress {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes checkmark {
+  from { stroke-dashoffset: 100; opacity: 0; }
+  to   { stroke-dashoffset: 0;   opacity: 1; }
+}
+
+@keyframes iconBob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+@keyframes badgePop {
+  0%   { transform: scale(0); opacity: 0; }
+  70%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes tooltipAppear {
+  from { opacity: 0; transform: translateY(6px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── CAROUSEL FRAUD SPECIFIC ─────────────────────────────────── */
+
+@keyframes carouselSpin {
+  0%   { transform: rotate(0deg); stroke: rgba(236, 72, 153, 0.3); }
+  50%  { stroke: rgba(236, 72, 153, 0.9); }
+  100% { transform: rotate(360deg); stroke: rgba(236, 72, 153, 0.3); }
+}
+
+@keyframes fraudDetected {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 59, 92, 0.8); }
+  50%  { box-shadow: 0 0 0 16px rgba(255, 59, 92, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 59, 92, 0); }
+}
+
+@keyframes cascadeFlow {
+  0%   { opacity: 0; transform: translateY(-10px); }
+  20%  { opacity: 1; transform: translateY(0); }
+  80%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
+/* ============================================================
+   ANIMATION UTILITY CLASSES
+   Use these directly on HTML elements
+   ============================================================ */
+
+/* ── Fade ────────────────────────────────────────────────────── */
+.animate-fade-in   { animation: fadeIn  var(--anim-fade-in)  var(--ease-out) both; }
+.animate-fade-out  { animation: fadeOut var(--anim-fade-in)  var(--ease-in)  both; }
+
+/* ── Slide ───────────────────────────────────────────────────── */
+.animate-slide-up    { animation: slideUp      var(--anim-slide-up) var(--ease-out) both; }
+.animate-slide-down  { animation: slideDown    var(--anim-slide-up) var(--ease-out) both; }
+.animate-slide-left  { animation: slideInLeft  var(--anim-slide-up) var(--ease-out) both; }
+.animate-slide-right { animation: slideInRight var(--anim-slide-up) var(--ease-out) both; }
+
+/* ── Scale ───────────────────────────────────────────────────── */
+.animate-scale-in        { animation: scaleIn       var(--anim-reveal) var(--ease-out)    both; }
+.animate-scale-in-bounce { animation: scaleInBounce var(--anim-reveal) var(--ease-bounce) both; }
+
+/* ── Stagger delays — apply to children ──────────────────────── */
+.stagger > *:nth-child(1)  { animation-delay: 0ms; }
+.stagger > *:nth-child(2)  { animation-delay: 80ms; }
+.stagger > *:nth-child(3)  { animation-delay: 160ms; }
+.stagger > *:nth-child(4)  { animation-delay: 240ms; }
+.stagger > *:nth-child(5)  { animation-delay: 320ms; }
+.stagger > *:nth-child(6)  { animation-delay: 400ms; }
+.stagger > *:nth-child(7)  { animation-delay: 480ms; }
+.stagger > *:nth-child(8)  { animation-delay: 560ms; }
+
+.stagger-sm > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-sm > *:nth-child(2) { animation-delay: 50ms; }
+.stagger-sm > *:nth-child(3) { animation-delay: 100ms; }
+.stagger-sm > *:nth-child(4) { animation-delay: 150ms; }
+.stagger-sm > *:nth-child(5) { animation-delay: 200ms; }
+.stagger-sm > *:nth-child(6) { animation-delay: 250ms; }
+
+/* ── Looping ─────────────────────────────────────────────────── */
+.animate-pulse       { animation: pulse     var(--anim-pulse)   ease-in-out infinite; }
+.animate-pulse-slow  { animation: pulseSlow var(--anim-float)   ease-in-out infinite; }
+.animate-spin        { animation: spin      var(--anim-spin)    linear     infinite; }
+.animate-spin-slow   { animation: spin      3s                  linear     infinite; }
+.animate-float       { animation: float     var(--anim-float)   ease-in-out infinite; }
+.animate-float-slow  { animation: floatSlow 5s                  ease-in-out infinite; }
+
+/* ── Glow Pulses ─────────────────────────────────────────────── */
+.animate-glow-blue   { animation: pulseGlow      2s ease-in-out infinite; }
+.animate-glow-red    { animation: pulseGlowRed   1.5s ease-in-out infinite; }
+.animate-glow-green  { animation: pulseGlowGreen 2s ease-in-out infinite; }
+.animate-glow-amber  { animation: pulseGlowAmber 2s ease-in-out infinite; }
+
+/* ── Fraud Specific ──────────────────────────────────────────── */
+.animate-fraud-detected  { animation: fraudDetected 1.5s ease-out infinite; }
+.animate-ripple-fraud    { animation: rippleFraud   1.5s ease-out infinite; }
+.animate-risk-flash      { animation: riskFlash     1s   ease-in-out infinite; }
+.animate-danger-blink    { animation: dangerBlink   1.2s step-end infinite; }
+.animate-warning-pulse   { animation: warningPulse  2s   ease-in-out infinite; }
+.animate-score-shake     { animation: scoreShake    0.6s ease-in-out; }
+
+/* ── Scan ────────────────────────────────────────────────────── */
+.animate-scan-ping   { animation: scanPing    1s ease-out infinite; }
+.animate-radar       { animation: radarSweep  3s linear   infinite; }
+
+/* ── Loading ─────────────────────────────────────────────────── */
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface)  25%,
+    var(--bg-elevated) 50%,
+    var(--bg-surface)  75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+.animate-skeleton { animation: skeletonPulse 1.5s ease-in-out infinite; }
+
+.dot-loader span {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  animation: dotLoader 1.2s ease-in-out infinite;
+}
+.dot-loader span:nth-child(1) { animation-delay: 0ms; }
+.dot-loader span:nth-child(2) { animation-delay: 160ms; }
+.dot-loader span:nth-child(3) { animation-delay: 320ms; }
+
+/* ── Hero Reveal ─────────────────────────────────────────────── */
+.animate-hero-text    { animation: heroTextReveal var(--duration-slowest) var(--ease-out) both; }
+.animate-hero-line    { animation: heroLineGrow   var(--duration-slow)    var(--ease-out) both; }
+.animate-counter      { animation: counterUp      var(--anim-counter)     var(--ease-bounce) both; }
+
+/* ── Delay Utilities ─────────────────────────────────────────── */
+.delay-0    { animation-delay: 0ms; }
+.delay-100  { animation-delay: 100ms; }
+.delay-200  { animation-delay: 200ms; }
+.delay-300  { animation-delay: 300ms; }
+.delay-400  { animation-delay: 400ms; }
+.delay-500  { animation-delay: 500ms; }
+.delay-600  { animation-delay: 600ms; }
+.delay-700  { animation-delay: 700ms; }
+.delay-800  { animation-delay: 800ms; }
+.delay-900  { animation-delay: 900ms; }
+.delay-1000 { animation-delay: 1000ms; }
+.delay-1200 { animation-delay: 1200ms; }
+.delay-1500 { animation-delay: 1500ms; }
+
+/* ── Duration Utilities ──────────────────────────────────────── */
+.duration-fast    { animation-duration: var(--duration-fast); }
+.duration-normal  { animation-duration: var(--duration-normal); }
+.duration-slow    { animation-duration: var(--duration-slow); }
+.duration-slower  { animation-duration: var(--duration-slower); }
+.duration-slowest { animation-duration: var(--duration-slowest); }
+
+/* ── Fill Mode ───────────────────────────────────────────────── */
+.fill-both    { animation-fill-mode: both; }
+.fill-forward { animation-fill-mode: forwards; }
+
+/* ── Pause on hover (for interactive elements) ───────────────── */
+.pause-on-hover:hover { animation-play-state: paused; }
+
+/* ── Reduced motion respect ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:   0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:  0.01ms !important;
+  }
+}
